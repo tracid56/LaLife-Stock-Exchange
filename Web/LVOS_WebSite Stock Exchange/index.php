@@ -1,7 +1,7 @@
 <?php 
 require_once("pass/database.php");
 
-$requete_pseudo = $bdd->prepare("SELECT * FROM stock_exchange INNER JOIN resources ON stock_exchange.resource_id = resources.resources_id");
+$requete_pseudo = $bdd->prepare("SELECT * FROM stock_exchange");
 $requete_pseudo->execute();
 
 ?>
