@@ -1,7 +1,7 @@
 <?php 
 require_once("pass/database.php");
 
-$requete_pseudo = $bdd->prepare("SELECT * FROM stock_exchange INNER JOIN resources ON stock_exchange.resource_id = resources.resources_id");
+$requete_pseudo = $bdd->prepare("SELECT * FROM stock_exchange");
 $requete_pseudo->execute();
 
 ?>
@@ -69,7 +69,7 @@ $requete_pseudo->execute();
           <div class="small-box bg-<?= $color ?>">
             <div class="inner">
               <h3><?php echo $data['price_current']; ?> $</h3>
-              <p><?php echo $data['resources_name']; ?></p>
+              <p><?php echo $data['resource_name']; ?></p>
             </div>
             <div class="icon">
               <i class="ion <?= $icon ?>"></i>
