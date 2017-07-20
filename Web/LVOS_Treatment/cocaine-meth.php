@@ -16,19 +16,20 @@ id_ressource = Resource ID in the database, in the stock_exchange table, or in t
 
 */
 
-$volatilite_ressource1 = 225;
-$volatilite_ressource2 = 225;
-$id_ressource1 = 13;
-$id_ressource2 = 6;
+
+$volatilite_ressource1 = 200; /* Volatility : Medium ++ */
+$volatilite_ressource2 = 200; /* Volatility : Medium ++ */
+$id_ressource1 = 12; /* ID Resource 1 */
+$id_ressource2 = 8; /* ID Resource 2 */
 
 /* END Configuration */
 
 
-$requete_ressource1 = $bdd->prepare("SELECT * FROM stock_exchange INNER JOIN resources ON stock_exchange.resource_id = resources.resources_id WHERE resource_id = ?");
+$requete_ressource1 = $bdd->prepare("SELECT * FROM stock_exchange WHERE resource_id = ?");
 $requete_ressource1->execute(array($id_ressource1));
 $ressource1 = $requete_ressource1->fetch();
 
-$requete_ressource2 = $bdd->prepare("SELECT * FROM stock_exchange INNER JOIN resources ON stock_exchange.resource_id = resources.resources_id WHERE resource_id = ?");
+$requete_ressource2 = $bdd->prepare("SELECT * FROM stock_exchange WHERE resource_id = ?");
 $requete_ressource2->execute(array($id_ressource2));
 $ressource2 = $requete_ressource2->fetch();
 
