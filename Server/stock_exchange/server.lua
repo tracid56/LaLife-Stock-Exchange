@@ -3,7 +3,7 @@ require "resources/mysql-async/lib/MySQL"
 ---------------------------------- FUNCTION ----------------------------------
 
 
--- FR -- Fonction : Permet d'ajouter une vente à la bourse, quand une ressource est vendu est doit être ajouté à la bourse 
+-- FR -- Fonction : Permet d'ajouter une vente à la bourse, quand une ressource est vendu est doit être ajouté à la bourse
 -- FR -- Paramètre(s) : id = ID de la ressource
 ---------------------------------------------------------
 -- EN -- Function : Allows to add a sale to the stock exchange, when a resource is sold is to be added to the stock exchange
@@ -18,13 +18,38 @@ end
 ---------------------------------------------------------
 -- EN -- Function : Allows get resource price
 -- EN -- Param(s) :  id = ID resource
-function whereIsPriceR(id,callback)
-  if callback ~= nil then
-    MySQL.Async.fetchScalar("SELECT price_current FROM stock_exchange WHERE resource_id = '@iduser'", {['@iduser'] = id}, callback)
-    return nil
-  end
-  return MySQL.Sync.fetchScalar("SELECT price_current FROM stock_exchange WHERE resource_id = '@iduser'", {['@iduser'] = id})
+function whereIsPriceR(id)
+  return MySQL.Sync.fetchScalar("SELECT price_current FROM stock_exchange WHERE resource_id = @id", {['@id'] = id})
 end
+
+RegisterServerEvent('Ilegal:GetPriceMeth')
+AddEventHandler('Ilegal:GetPriceMeth', function(id)
+    ActualPrice = whereIsPriceR(id)
+    TriggerClientEvent("Ilegal:GotPriceMeth", -1, ActualPrice)
+end)
+
+RegisterServerEvent('Ilegal:GetPriceOrgan')
+AddEventHandler('Ilegal:GetPriceOrgan', function(id)
+    ActualPrice = whereIsPriceR(id)
+    TriggerClientEvent("Ilegal:GotPriceOrgan", -1, ActualPrice)
+end)
+
+RegisterServerEvent('Ilegal:GetPriceWeed')
+AddEventHandler('Ilegal:GetPriceWeed', function(id)
+    ActualPrice = whereIsPriceR(id)
+    TriggerClientEvent("Ilegal:GotPriceWeed", -1, ActualPrice)
+end)
+
+RegisterServerEvent('Ilegal:GetPriceCoke')
+AddEventHandler('Ilegal:GetPriceCoke', function(id)
+    ActualPrice = whereIsPriceR(id)
+    TriggerClientEvent("Ilegal:GotPriceCoke", -1, ActualPrice)
+end)
+
+RegisterServerEvent('Ilegal:Sell')
+AddEventHandler('Ilegal:Sell', function(id)
+    addSell(id)
+end)
 
 
 -- FR -- CECI EST UN EXEMPLE D'UTILISATION DES FONCTIONS
@@ -35,6 +60,6 @@ AddEventHandler("inventory:sell", function(id) -- Why not quantity ? Depending o
             -- MULTIPLE REQUEST : Inventory management, deletion of the item, update of the quantity, etc ...  Depending on your inventory system AGAAAIN
             user:addMoney(tonumber(price))
             addSell(id)
-        end) 
+        end)
     end)
 end)
